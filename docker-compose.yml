@@ -1,0 +1,77 @@
+version: "3.7"
+
+services: 
+    redis-primary:
+        container_name: redis-primary
+        image: redis:latest
+        ports: 
+            - "6379:6379"
+        restart: unless-stopped
+        environment: 
+            - REDIS_PASSWORD=password
+            - REDIS_REPLICATION_MODE=master
+        volumes: 
+            - /f/DockerData/Redis-Primary:/data
+
+    redis-one:
+        container_name: redis-one
+        image: redis:latest
+        ports: 
+            - "6380:6379"
+        restart: unless-stopped
+        depends_on: 
+            - redis-primary
+        environment: 
+            - REDIS_REPLICATION_MODE=slave
+            - REDIS_MASTER_HOST=redis-primary
+            - REDIS_MASTER_PORT_NUMBER=6379
+            - REDIS_MASTER_PASSWORD=password
+            - REDIS_PASSWORD=password
+            - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHAL
+        volumes: 
+            - /f/DockerData/Redis-One:/data
+
+    redis-two:
+        container_name: redis-two
+        image: redis:latest
+        ports: 
+            - "6381:6379"
+        restart: unless-stopped
+        depends_on: 
+            - redis-primary
+        environment: 
+            - REDIS_REPLICATION_MODE=slave
+            - REDIS_MASTER_HOST=redis-primary
+            - REDIS_MASTER_PORT_NUMBER=6379
+            - REDIS_MASTER_PASSWORD=password
+            - REDIS_PASSWORD=password
+            - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHAL
+        volumes: 
+            - /f/DockerData/Redis-Two:/data
+
+    redisinsight:
+        container_name: redisinsight
+        image: redislabs/redisinsight:latest
+        ports:
+            - '8001:8001'
+        volumes:
+            - /f/DockerData/RedisInsight:/db
+
+    redis-commander:
+        container_name: redis-commander
+        image: rediscommander/redis-commander
+        ports: 
+            - "8081:8081"
+        environment: 
+            - REDIS_HOST=redis-primary
+            - REDIS_PASSWORD=password
+            - REDIS_PORT=6379
+    
+    mongo:
+        container_name: mongo
+        image: mongo:4.4
+        ports:
+            - "27017:27017"
+        restart: unless-stopped
+        volumes: 
+            - /f/DockerData/Mongo/db:/data/db
