@@ -1,57 +1,21 @@
 version: "3.7"
 
 services: 
-    redis-primary:
-        container_name: redis-primary
+    redis:
+        container_name: redis
         image: redis:latest
         ports: 
             - "6379:6379"
         restart: unless-stopped
         environment: 
             - REDIS_PASSWORD=password
-            - REDIS_REPLICATION_MODE=master
         volumes: 
-            - /f/DockerData/Redis-Primary:/data
-
-    redis-one:
-        container_name: redis-one
-        image: redis:latest
-        ports: 
-            - "6380:6379"
-        restart: unless-stopped
-        depends_on: 
-            - redis-primary
-        environment: 
-            - REDIS_REPLICATION_MODE=slave
-            - REDIS_MASTER_HOST=redis-primary
-            - REDIS_MASTER_PORT_NUMBER=6379
-            - REDIS_MASTER_PASSWORD=password
-            - REDIS_PASSWORD=password
-            - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHAL
-        volumes: 
-            - /f/DockerData/Redis-One:/data
-
-    redis-two:
-        container_name: redis-two
-        image: redis:latest
-        ports: 
-            - "6381:6379"
-        restart: unless-stopped
-        depends_on: 
-            - redis-primary
-        environment: 
-            - REDIS_REPLICATION_MODE=slave
-            - REDIS_MASTER_HOST=redis-primary
-            - REDIS_MASTER_PORT_NUMBER=6379
-            - REDIS_MASTER_PASSWORD=password
-            - REDIS_PASSWORD=password
-            - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHAL
-        volumes: 
-            - /f/DockerData/Redis-Two:/data
+            - /f/DockerData/Redis:/data
 
     redisinsight:
         container_name: redisinsight
         image: redislabs/redisinsight:latest
+        restart: unless-stopped
         ports:
             - '8001:8001'
         volumes:
@@ -60,6 +24,7 @@ services:
     redis-commander:
         container_name: redis-commander
         image: rediscommander/redis-commander
+        restart: unless-stopped
         ports: 
             - "8081:8081"
         environment: 
@@ -75,3 +40,11 @@ services:
         restart: unless-stopped
         volumes: 
             - /f/DockerData/Mongo/db:/data/db
+
+    nats:
+        container_name: nats
+        image: nats:latest
+        restart: unless-stopped
+        ports: 
+            - "4222:4222"
+            - "8222:8222"
