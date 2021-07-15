@@ -10,7 +10,7 @@ services:
         environment: 
             - REDIS_PASSWORD=password
         volumes: 
-            - /f/DockerData/Redis:/data
+            - ~/DockerData/Redis:/data
 
     redisinsight:
         container_name: redisinsight
@@ -19,7 +19,7 @@ services:
         ports:
             - '8001:8001'
         volumes:
-            - /f/DockerData/RedisInsight:/db
+            - ~/DockerData/RedisInsight:/db
 
     redis-commander:
         container_name: redis-commander
@@ -39,7 +39,7 @@ services:
             - "27017:27017"
         restart: unless-stopped
         volumes: 
-            - /f/DockerData/Mongo/db:/data/db
+            - ~/DockerData/Mongo/db:/data/db
 
     nats:
         container_name: nats
@@ -48,3 +48,10 @@ services:
         ports: 
             - "4222:4222"
             - "8222:8222"
+
+    nats-webui:
+        container_name: nats-webui
+        image: sphqxe/nats-webui:latest
+        restart: unless-stopped
+        ports: 
+            - "8082:80"
