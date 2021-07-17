@@ -28,7 +28,7 @@ services:
         ports: 
             - "8081:8081"
         environment: 
-            - REDIS_HOST=redis-primary
+            - REDIS_HOST=redis
             - REDIS_PASSWORD=password
             - REDIS_PORT=6379
     
