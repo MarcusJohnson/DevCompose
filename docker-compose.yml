@@ -7,8 +7,6 @@ services:
         ports: 
             - "6379:6379"
         restart: unless-stopped
-        environment: 
-            - REDIS_PASSWORD=password
         volumes: 
             - ~/DockerData/Redis:/data
 
@@ -29,7 +27,6 @@ services:
             - "8081:8081"
         environment: 
             - REDIS_HOST=redis
-            - REDIS_PASSWORD=password
             - REDIS_PORT=6379
     
     mongo:
@@ -41,17 +38,13 @@ services:
         volumes: 
             - ~/DockerData/Mongo/db:/data/db
 
-    nats:
-        container_name: nats
-        image: nats:latest
+    rabbitmq:
+        container_name: rabbitmq
+        image: rabbitmq:3-management
         restart: unless-stopped
         ports: 
-            - "4222:4222"
-            - "8222:8222"
-
-    nats-webui:
-        container_name: nats-webui
-        image: sphqxe/nats-webui:latest
-        restart: unless-stopped
-        ports: 
-            - "8082:80"
+            - "5672:5672"
+            - "15672:15672"
+        volumes:
+            - ~/DockerData/rabbitmq/data/:/var/lib/rabbitmq
+            - ~/DockerData/rabbitmq/log/:/var/log/rabbitmq
