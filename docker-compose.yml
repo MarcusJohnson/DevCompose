@@ -45,6 +45,8 @@ services:
         ports: 
             - "5672:5672"
             - "15672:15672"
+            - "15692:15692"
+            - "25672:25672"
         volumes:
-            - ~/DockerData/rabbitmq/data/:/var/lib/rabbitmq
+            - ~/DockerData/rabbitmq:/var/lib/rabbitmq
             - ~/DockerData/rabbitmq/log/:/var/log/rabbitmq
