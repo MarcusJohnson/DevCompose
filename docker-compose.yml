@@ -40,6 +40,7 @@ services:
 
     rabbitmq:
         container_name: rabbitmq
+        hostname: local-docker
         image: rabbitmq:3-management
         restart: unless-stopped
         ports: 
@@ -49,4 +50,4 @@ services:
             - "25672:25672"
         volumes:
             - ~/DockerData/rabbitmq:/var/lib/rabbitmq
-            - ~/DockerData/rabbitmq/log/:/var/log/rabbitmq
+            - ~/DockerData/rabbitmq:/var/log/rabbitmq
