@@ -80,3 +80,22 @@ services:
         environment:
             ELASTICSEARCH_URL: http://elasticsearch:9200
             ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        restart: unless-stopped
+        ports:
+            - '9090:9090'
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+            - ~/DockerData/prometheus:/prometheus
+
+    grafana:
+        image: grafana/grafana
+        container_name: grafana
+        restart: unless-stopped
+        depends_on:
+            - prometheus
+        ports:
+            - '3000:3000'
