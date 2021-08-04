@@ -9,25 +9,35 @@ services:
         restart: unless-stopped
         volumes: 
             - ~/DockerData/Redis:/data
+        networks: 
+            - dev-network
 
     redisinsight:
         container_name: redisinsight
         image: redislabs/redisinsight:latest
         restart: unless-stopped
+        depends_on:
+            - redis
         ports:
             - '8002:8001'
         volumes:
             - ~/DockerData/RedisInsight:/db
+        networks: 
+            - dev-network
 
     redis-commander:
         container_name: redis-commander
         image: rediscommander/redis-commander
         restart: unless-stopped
+        depends_on:
+            - redis
         ports: 
             - "8081:8081"
         environment: 
             - REDIS_HOST=redis
             - REDIS_PORT=6379
+        networks: 
+            - dev-network
     
     mongo:
         container_name: mongo
@@ -37,6 +47,8 @@ services:
         restart: unless-stopped
         volumes: 
             - ~/DockerData/Mongo/db:/data/db
+        networks: 
+            - dev-network
 
     rabbitmq:
         container_name: rabbitmq
@@ -51,6 +63,8 @@ services:
         volumes:
             - ~/DockerData/rabbitmq:/var/lib/rabbitmq
             - ~/DockerData/rabbitmq:/var/log/rabbitmq
+        networks: 
+            - dev-network
 
     elasticsearch:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
@@ -68,18 +82,22 @@ services:
             - ~/DockerData/ElasticSearch/data:/usr/share/elasticsearch/data
         ports:
             - 9200:9200
+        networks: 
+            - dev-network
 
     kibana:
         image: docker.elastic.co/kibana/kibana:7.13.4
         container_name: kibana
+        restart: unless-stopped
         depends_on:
             - elasticsearch
-        restart: unless-stopped
         ports:
             - 5601:5601
         environment:
             ELASTICSEARCH_URL: http://elasticsearch:9200
             ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+        networks: 
+            - dev-network
 
     prometheus:
         image: prom/prometheus
@@ -90,6 +108,8 @@ services:
         volumes:
             - ./prometheus.yml:/etc/prometheus/prometheus.yml
             - ~/DockerData/prometheus:/prometheus
+        networks: 
+            - dev-network
 
     grafana:
         image: grafana/grafana
@@ -99,3 +119,9 @@ services:
             - prometheus
         ports:
             - '3000:3000'
+        networks: 
+            - dev-network
+
+networks:
+  dev-network:
+    driver: bridge
