@@ -1,0 +1,98 @@
+[
+    {
+      "labels": {
+        "job": "analyzer-scan"
+      },
+      "targets": [
+        "host.docker.internal:50000"
+      ]
+    },
+    {
+      "labels": {
+        "job": "audit-event"
+      },
+      "targets": [
+        "host.docker.internal:50002"
+      ]
+    },
+    {
+      "labels": {
+        "job": "build-output"
+      },
+      "targets": [
+        "host.docker.internal:50004"
+      ]
+    },
+    {
+      "labels": {
+        "job": "bulk-user"
+      },
+      "targets": [
+        "host.docker.internal:50001"
+      ]
+    },
+    {
+      "labels": {
+        "job": "entitlements"
+      },
+      "targets": [
+        "host.docker.internal:50003"
+      ]
+    },
+    {
+        "labels": {
+          "job": "file-cloning"
+        },
+        "targets": [
+          "host.docker.internal:50008"
+        ]
+    },
+    {
+      "labels": {
+        "job": "meta-data"
+      },
+      "targets": [
+        "host.docker.internal:50007"
+      ]
+    },
+    {
+      "labels": {
+        "job": "output-analytics"
+      },
+      "targets": [
+        "host.docker.internal:50009"
+      ]
+    },
+    {
+      "labels": {
+        "job": "process-notifications"
+      },
+      "targets": [
+        "host.docker.internal:50006"
+      ]
+    },
+    {
+      "labels": {
+        "job": "project-file-sync"
+      },
+      "targets": [
+        "host.docker.internal:50010"
+      ]
+    },
+    {
+      "labels": {
+        "job": "scheduler"
+      },
+      "targets": [
+        "host.docker.internal:50011"
+      ]
+    },
+    {
+      "labels": {
+        "job": "website-management"
+      },
+      "targets": [
+        "host.docker.internal:50005"
+      ]
+    }
+]

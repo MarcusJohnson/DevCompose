@@ -107,9 +107,12 @@ services:
             - '9090:9090'
         volumes:
             - ./prometheus.yml:/etc/prometheus/prometheus.yml
+            - ./targets.json:/etc/prometheus/targets.json
             - ~/DockerData/prometheus:/prometheus
         networks: 
             - dev-network
+        extra_hosts:
+            - host.docker.internal:host-gateway
 
     grafana:
         image: grafana/grafana
