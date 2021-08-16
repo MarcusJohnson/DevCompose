@@ -12,19 +12,6 @@ services:
         networks: 
             - dev-network
 
-    redisinsight:
-        container_name: redisinsight
-        image: redislabs/redisinsight:latest
-        restart: unless-stopped
-        depends_on:
-            - redis
-        ports:
-            - '8002:8001'
-        volumes:
-            - ~/DockerData/RedisInsight:/db
-        networks: 
-            - dev-network
-
     redis-commander:
         container_name: redis-commander
         image: rediscommander/redis-commander
@@ -121,7 +108,7 @@ services:
         depends_on:
             - prometheus
         ports:
-            - '3000:3000'
+            - '3001:3000'
         volumes: 
             - ~/DockerData/grafana:/var/lib/grafana
         networks: 
