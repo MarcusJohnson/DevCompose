@@ -113,6 +113,19 @@ services:
             - ~/DockerData/grafana:/var/lib/grafana
         networks: 
             - dev-network
+    azurite:
+        container_name: azurite
+        image: mcr.microsoft.com/azure-storage/azurite:latest
+        ports: 
+            - "10000:10000"
+            - "10001:10001"
+            - "10002:10002"
+        restart: unless-stopped
+        # command: "azurite -l /workspace -d /workspace/debug.log --blobPort 10000 --blobHost 0.0.0.0 --queuePort 10001 --queueHost 0.0.0.0 --tablePort 10002 --tableHost 0.0.0.0 --loose --skipApiVersionCheck --disableProductStyleUrl"
+        volumes: 
+            - ~/DockerData/azurite:/data
+        networks: 
+            - dev-network
 
 networks:
   dev-network:
